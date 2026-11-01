@@ -2,6 +2,7 @@
 
 - `library.csv`: instruments, devices, drugs and companies (one row per item).
 - `contacts.csv`: people from visiting cards (kept separate so product records stay clean).
+- `manufacturers.csv`: one row per manufacturer or distributor. Link library rows by company name.
 
 Conventions:
 - `id`: L-0001 for library rows, C-0001 for contacts. Never reuse an id.
