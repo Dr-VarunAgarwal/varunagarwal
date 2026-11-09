@@ -2,6 +2,7 @@
 
 - `library.csv`: instruments, devices, drugs and companies (one row per item).
 - `contacts.csv`: people from visiting cards (kept separate so product records stay clean).
+- `build_dashboard.py` makes `dashboard/index.html` (browser view). `build_db.py` makes `urology_library.sqlite` (open in DB Browser for SQLite).
 - `manufacturers.csv`: one row per manufacturer or distributor. Link library rows by company name.
 
 Conventions:
