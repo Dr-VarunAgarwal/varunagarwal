@@ -1,0 +1,5 @@
+id,product_id,product_name,company,pack,quantity,price_inr,price_note,source,date_recorded
+P-0001,L-0085,Degapride (240 mg loading dose),Sun Pharma,Loading dose pack,1,8000,"Loading dose, 240 mg","Sun Pharma rep (verbal, 2026-11-11)",2026-11-11
+P-0002,L-0085,Degapride (80 mg monthly),Sun Pharma,Monthly 80 mg,1,7000,"Per monthly dose, 80 mg; patient cost per month","Sun Pharma rep (verbal, 2026-11-11)",2026-11-11
+P-0003,L-0086,Caulran CP (bicalutamide),Sun Pharma,30 tablets,30,1000,Per 30 tablets,"Sun Pharma rep (verbal, 2026-11-11)",2026-11-11
+P-0004,L-0087,Zelgor 250 mg,Sun Pharma,120 tablets,120,9500,Per 120 tablets (250 mg each),"Sun Pharma rep (verbal, 2026-11-11)",2026-11-11

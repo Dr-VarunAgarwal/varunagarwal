@@ -11,7 +11,7 @@ import csv, os, sqlite3
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "urology_library.sqlite")
 
-TABLES = {"products": "library.csv", "manufacturers": "manufacturers.csv", "contacts": "contacts.csv"}
+TABLES = {"products": "library.csv", "manufacturers": "manufacturers.csv", "contacts": "contacts.csv", "pricing": "pricing.csv"}
 
 if os.path.exists(OUT):
     os.remove(OUT)
