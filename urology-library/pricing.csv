@@ -1,8 +1,18 @@
-id,product_id,product_name,company,pack,quantity,price_inr,price_note,source,date_recorded
-P-0001,L-0085,Degapride (240 mg loading dose),Sun Pharma,Loading dose pack,1,8000,"Loading dose, 240 mg","Sun Pharma rep (verbal, 2026-11-11)",2026-11-11
-P-0002,L-0085,Degapride (80 mg monthly),Sun Pharma,Monthly 80 mg,1,7000,"Per monthly dose, 80 mg; patient cost per month","Sun Pharma rep (verbal, 2026-11-11)",2026-11-11
-P-0003,L-0086,Caulran CP (bicalutamide),Sun Pharma,30 tablets,30,1000,Per 30 tablets,"Sun Pharma rep (verbal, 2026-11-11)",2026-11-11
-P-0004,L-0087,Zelgor 250 mg,Sun Pharma,120 tablets,120,9500,Per 120 tablets (250 mg each),"Sun Pharma rep (verbal, 2026-11-11)",2026-11-11
-P-0005,L-0088,Cranpac D,Not stated,1 tablet,1,32,Per tablet (pack size not given),"user note (verbal, 2026-11-18)",2026-11-18
-P-0006,L-0089,Cranpac KM 250,Not stated,1 bottle,1,250,Per bottle (volume not given),"user note (verbal, 2026-11-18)",2026-11-18
-P-0007,L-0090,Rapilif D,IPCA Laboratories,1 tablet,1,47,Per tablet. Pack of 15 tablets (pack price not given),"user note (verbal, 2026-11-18)",2026-11-18
+id,product_id,product_name,company,pack,quantity,price_inr,price_note,source,date_recorded,price_type
+P-0001,L-0085,Degapride (240 mg loading dose),Sun Pharma,Loading dose pack,1,8000,Loading dose 240 mg (two 120 mg vials per web). Rep quote; basis to confirm.,"Sun Pharma rep (verbal, 2026-11-11)",2026-11-11,rep quote (Sun)
+P-0002,L-0085,Degapride (80 mg monthly),Sun Pharma,Monthly 80 mg,1,7000,"80 mg monthly (per web, 80 mg vial). Rep quote.","Sun Pharma rep (verbal, 2026-11-11)",2026-11-11,rep quote (Sun)
+P-0003,L-0086,Caulran CP (bicalutamide),Sun Pharma,30 tablets,30,1000,Per 30 tablets (50 mg). Rep quote.,"Sun Pharma rep (verbal, 2026-11-11)",2026-11-11,rep quote (Sun)
+P-0004,L-0087,Zelgor 250 mg,Sun Pharma,120 tablets,120,9500,Per 120 tablets (250 mg). Rep quote.,"Sun Pharma rep (verbal, 2026-11-11)",2026-11-11,rep quote (Sun)
+P-0005,L-0088,Cranpac D,Not stated,1 tablet,1,32,Per tablet. IPCA rep quote.,"user note (verbal, 2026-11-18)",2026-11-18,rep quote (IPCA)
+P-0006,L-0089,Cranpac KM 250,Not stated,1 bottle,1,250,Per bottle. IPCA rep quote.,"user note (verbal, 2026-11-18)",2026-11-18,rep quote (IPCA)
+P-0007,L-0090,Rapilif D,IPCA Laboratories,1 tablet,1,47,"Per tablet, pack of 15. IPCA rep quote.","user note (verbal, 2026-11-18)",2026-11-18,rep quote (IPCA)
+P-0008,L-0085,Degapride 120 mg vial (web MRP),Sun Pharma,1 vial 120 mg,1,18375,Web MRP (one retailer listing); for comparison with rep quote,web (2026-11-18),2026-11-18,web retailer MRP
+P-0009,L-0086,Caluran CP 50 mg (web MRP),Sun Pharma,30 tablets,30,1330,Web MRP upper end (range 1160-1330) per 30 tablets,web (2026-11-18),2026-11-18,web retailer MRP
+P-0010,L-0087,Zelgor 250 mg (web MRP),Sun Pharma,120 tablets,120,12187.5,Web MRP (PharmEasy),web (2026-11-18),2026-11-18,web retailer MRP
+P-0011,L-0090,Rapilif D 8/0.5 (web MRP),IPCA Laboratories,15 tablets,15,714,Web MRP per 15 tablets (Truemeds); selling about 571-607,web (2026-11-18),2026-11-18,web retailer MRP
+P-0012,L-0091,AMS 800 AUS (patient cost),Boston Scientific (AMS),Implant procedure,1,750000,Patient cost approx 7-8 lakh (user). Midpoint shown.,user note (2026-11-18),2026-11-18,user estimate
+P-0013,L-0091,AMS 800 AUS (one Delhi clinic),Boston Scientific (AMS),Implant,1,815000,"Web: one clinic listing INR 815,000",web (2026-11-18),2026-11-18,web clinic listing
+P-0014,L-0092,AMS 700 penile implant (one Delhi clinic),Boston Scientific (AMS),Implant,1,850000,Web: one clinic ~8.5 lakh (approx),web (2026-11-18),2026-11-18,web clinic listing
+P-0015,L-0093,UroLift per gun,Teleflex Incorporated,1 gun,1,77000,Approx (user). Unverified.,user note (2026-11-18),2026-11-18,user estimate
+P-0016,L-0093,UroLift per case (4 guns),Teleflex Incorporated,Case of 4 guns,4,308000,"Derived from user figures (4 x 77,000). Approx.",user note (2026-11-18),2026-11-18,user estimate (derived)
+P-0017,L-0024,UroLift patient procedure (web),Teleflex Incorporated,Procedure,1,250000,"Web: 150,000-350,000 INR patient cost (AINU India). Midpoint shown.",web (2026-11-18),2026-11-18,web clinic listing
