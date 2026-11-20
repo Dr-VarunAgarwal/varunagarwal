@@ -4,7 +4,7 @@ devices, companies and contacts, as one self-contained HTML page.
 Run:  python3 urology-library/build_reference.py
 Output: urology-library/reference/index.html  (open in a browser, works offline)
 """
-import csv, json, os
+import csv, json, os, re
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -20,6 +20,23 @@ data = {
     "contacts": load("contacts.csv"),
 }
 payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
+ICON_DIR = os.path.join(HERE, "reference", "assets", "tabler-icons")
+
+def icon_inner(name):
+    """Return the inner SVG markup of a Tabler outline icon (MIT, see assets README)."""
+    path = os.path.join(ICON_DIR, name + ".svg")
+    with open(path, encoding="utf-8") as f:
+        src = f.read()
+    inner = src[src.index(">", src.index("<svg")) + 1 : src.rindex("</svg>")]
+    return inner.strip()
+
+def icon_html(name, cls="ic"):
+    return ('<svg class="%s" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
+            'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">%s</svg>' % (cls, icon_inner(name)))
+
+def fill_icons(html):
+    return re.sub(r"\[\[icon:([a-z-]+)\]\]", lambda m: icon_html(m.group(1)), html)
+
 
 HTML = r"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
@@ -96,21 +113,29 @@ td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-num
 .sheet dt{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
 .sheet dd{margin:0;word-break:break-word}
 .hidden{display:none!important}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(120deg,var(--accent-soft),var(--card) 70%);border:1px solid var(--line);border-radius:16px;padding:22px 26px;margin-bottom:18px;box-shadow:var(--shadow);overflow:hidden}
+.hero .anat{width:min(220px,40%);height:auto;color:var(--accent);opacity:.9;flex:0 0 auto}
+@media(max-width:560px){.hero .anat{display:none}}
+.ic{width:18px;height:18px;flex:0 0 18px;vertical-align:-4px;color:var(--accent)}
+nav button .ic{color:inherit;opacity:.9;width:17px;height:17px;flex:0 0 17px}
+.card .k .ic{width:14px;height:14px;flex:0 0 14px;vertical-align:-2px;margin-right:2px}
+.card.stat .ic{width:22px;height:22px;margin-bottom:6px;color:var(--gold)}
+.brand .ic{width:20px;height:20px;vertical-align:-4px;color:var(--accent)}
 @media print{aside,.search,.noprint{display:none!important}.wrap{display:block}main{padding:0}body{background:#fff;color:#000}.card,table,.est{box-shadow:none}}
 </style></head>
 <body>
 <div class="wrap">
   <aside>
-    <p class="brand">Urology<br>Reference Centre</p>
+    <p class="brand">[[icon:medical-cross]] Urology<br>Reference Centre</p>
     <svg class="pulse" viewBox="0 0 220 34" preserveAspectRatio="none" aria-hidden="true"><path d="M0 18 H52 L60 18 L66 6 L74 30 L82 12 L88 18 H140 L146 18 L152 10 L158 22 L164 18 H220" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round" opacity=".75"/></svg>
     <div class="tag">Operating theatre reference · drugs, devices, costs, contacts</div>
     <nav id="nav">
-      <button data-v="home" class="on">Overview</button>
-      <button data-v="drugs">Drugs &amp; prices <span class="n" id="nDrugs"></span></button>
-      <button data-v="procs">Procedure costs <span class="n" id="nProcs"></span></button>
-      <button data-v="devices">Devices <span class="n" id="nDev"></span></button>
-      <button data-v="companies">Companies <span class="n" id="nCo"></span></button>
-      <button data-v="contacts">Contacts <span class="n" id="nCt"></span></button>
+      <button data-v="home" class="on">[[icon:heartbeat]]Overview</button>
+      <button data-v="drugs">[[icon:pill]]Drugs &amp; prices <span class="n" id="nDrugs"></span></button>
+      <button data-v="procs">[[icon:report-medical]]Procedure costs <span class="n" id="nProcs"></span></button>
+      <button data-v="devices">[[icon:microscope]]Devices <span class="n" id="nDev"></span></button>
+      <button data-v="companies">[[icon:hospital]]Companies <span class="n" id="nCo"></span></button>
+      <button data-v="contacts">[[icon:nurse]]Contacts <span class="n" id="nCt"></span></button>
     </nav>
     <div class="side-foot">Private. Contains personal contact details.<br><button class="btn noprint" id="themeBtn" style="margin-top:8px;padding:5px 10px;font-size:12px">Toggle theme</button></div>
   </aside>
@@ -176,21 +201,33 @@ function renderHome(){
   $('sub').textContent = 'Your archive at a glance. Use the search box to find anything.';
   const priced = D.pricing.length;
   $('v-home').innerHTML = `
+    <div class="hero">
+      <div><div class="k">Urology · Operating theatre</div><h2 style="margin:6px 0 4px;font-size:22px;text-transform:none;letter-spacing:0;color:var(--ink)">Drugs, devices and costs, in one place</h2>
+      <p class="lead">Rep quotes, web checks and procedure estimates for your urology work.</p></div>
+      <svg class="anat" viewBox="0 0 200 150" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M46 34 C 22 40, 14 70, 26 94 C 36 114, 62 118, 74 100 C 84 84, 78 60, 68 44 C 62 36, 54 32, 46 34 Z"/>
+  <path d="M68 58 C 84 62, 96 70, 100 84"/>
+  <path d="M100 84 C 104 100, 102 112, 110 122"/>
+  <path d="M110 122 C 122 132, 146 130, 152 116 C 158 102, 146 92, 130 92 C 118 92, 112 104, 110 122 Z"/>
+  <path d="M152 116 C 168 116, 178 124, 176 138"/>
+  <path d="M30 124 C 38 130, 58 132, 70 124" stroke-dasharray="2 4" opacity=".6"/>
+</svg>
+    </div>
     <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr));margin-bottom:8px">
-      <div class="card stat"><b>${drugs.length}</b><span>drugs</span></div>
-      <div class="card stat"><b>${devices.length}</b><span>devices &amp; other items</span></div>
-      <div class="card stat"><b>${D.procedures.length}</b><span>procedures costed</span></div>
-      <div class="card stat"><b>${priced}</b><span>price points</span></div>
-      <div class="card stat"><b>${cos}</b><span>companies</span></div>
-      <div class="card stat"><b>${ppl}</b><span>contacts</span></div>
+      <div class="card stat">[[icon:pill]]<b>${drugs.length}</b><span>drugs</span></div>
+      <div class="card stat">[[icon:microscope]]<b>${devices.length}</b><span>devices &amp; other items</span></div>
+      <div class="card stat">[[icon:report-medical]]<b>${D.procedures.length}</b><span>procedures costed</span></div>
+      <div class="card stat">[[icon:droplet]]<b>${priced}</b><span>price points</span></div>
+      <div class="card stat">[[icon:hospital]]<b>${cos}</b><span>companies</span></div>
+      <div class="card stat">[[icon:nurse]]<b>${ppl}</b><span>contacts</span></div>
     </div>
     <h2>Quick start</h2>
     <div class="grid">
-      <div class="card" style="cursor:pointer" onclick="show('drugs')"><div class="k">Reference</div><h3>Drugs &amp; prices</h3><p>Rep quotes next to web retail prices, with the basis for each.</p></div>
-      <div class="card" style="cursor:pointer" onclick="show('procs')"><div class="k">Estimate</div><h3>Procedure costs</h3><p>Adjust device cost, units and margin to estimate what a patient pays.</p></div>
-      <div class="card" style="cursor:pointer" onclick="show('devices')"><div class="k">Catalogue</div><h3>Devices</h3><p>Lasers, ureteroscopes, sheaths, stones, urodynamics and more.</p></div>
-      <div class="card" style="cursor:pointer" onclick="show('companies')"><div class="k">Vendors</div><h3>Companies</h3><p>Who makes or distributes what, and where to reach them.</p></div>
-      <div class="card" style="cursor:pointer" onclick="show('contacts')"><div class="k">People</div><h3>Contacts</h3><p>Every rep and manager you have met, with direct lines.</p></div>
+      <div class="card" style="cursor:pointer" onclick="show('drugs')"><div class="k">[[icon:pill]] Reference</div><h3>Drugs &amp; prices</h3><p>Rep quotes next to web retail prices, with the basis for each.</p></div>
+      <div class="card" style="cursor:pointer" onclick="show('procs')"><div class="k">[[icon:report-medical]] Estimate</div><h3>Procedure costs</h3><p>Adjust device cost, units and margin to estimate what a patient pays.</p></div>
+      <div class="card" style="cursor:pointer" onclick="show('devices')"><div class="k">[[icon:microscope]] Catalogue</div><h3>Devices</h3><p>Lasers, ureteroscopes, sheaths, stones, urodynamics and more.</p></div>
+      <div class="card" style="cursor:pointer" onclick="show('companies')"><div class="k">[[icon:hospital]] Vendors</div><h3>Companies</h3><p>Who makes or distributes what, and where to reach them.</p></div>
+      <div class="card" style="cursor:pointer" onclick="show('contacts')"><div class="k">[[icon:nurse]] People</div><h3>Contacts</h3><p>Every rep and manager you have met, with direct lines.</p></div>
     </div>
     <p class="note">Prices are rep quotes or web retail listings and change often. Check the basis shown before quoting a patient.</p>`;
 }
@@ -199,20 +236,20 @@ function cardDrug(p){
   const pr = D.pricing.filter(x => x.product_id === p.id);
   const best = pr[0];
   return `<div class="card" style="cursor:pointer" onclick="openItem('${esc(p.id)}')">
-    <div class="k">${esc(p.manufacturer_company)}</div><h3>${esc(p.name)}</h3>
+    <div class="k">[[icon:pill]] ${esc(p.manufacturer_company)}</div><h3>${esc(p.name)}</h3>
     <p>${esc((p.use_indication||'').slice(0,110))}</p>
     <p style="margin-top:10px">${best ? `<b style="color:var(--accent)">${inr(best.price_inr)}</b> <span class="note">${esc(best.price_note||'')}</span>` : '<span class="note">No price yet</span>'}</p>
     <div style="margin-top:8px">${pill(p.verification_status)}</div></div>`;
 }
 function cardDevice(p){
   return `<div class="card" style="cursor:pointer" onclick="openItem('${esc(p.id)}')">
-    <div class="k">${esc(p.category)} · ${esc(p.manufacturer_company)}</div><h3>${esc(p.name)}</h3>
+    <div class="k">[[icon:microscope]] ${esc(p.category)} · ${esc(p.manufacturer_company)}</div><h3>${esc(p.name)}</h3>
     <p>${esc((p.use_indication||'').slice(0,120))}</p><div style="margin-top:8px">${pill(p.verification_status)}</div></div>`;
 }
 function cardCo(m){
   const n = D.products.filter(p => (p.manufacturer_company||'').toLowerCase().slice(0,10) === (m.name||'').toLowerCase().slice(0,10)).length;
   return `<div class="card" style="cursor:pointer" onclick="openCo('${esc(m.id)}')">
-    <div class="k">${esc(m.type)}</div><h3>${esc(m.name)}</h3>
+    <div class="k">[[icon:hospital]] ${esc(m.type)}</div><h3>${esc(m.name)}</h3>
     <p>${esc([m.city,m.country].filter(Boolean).join(', '))}</p>
     <p>${esc((m.product_categories||'').slice(0,110))}</p>
     <div style="margin-top:8px">${pill(m.verification_status)} <span class="note">${n} product${n===1?'':'s'}</span></div></div>`;
@@ -344,5 +381,5 @@ out_dir = os.path.join(HERE, "reference")
 os.makedirs(out_dir, exist_ok=True)
 out = os.path.join(out_dir, "index.html")
 with open(out, "w", encoding="utf-8") as f:
-    f.write(HTML.replace("__PAYLOAD__", payload))
+    f.write(fill_icons(HTML.replace("__PAYLOAD__", payload)))
 print("wrote", out, {k: len(v) for k, v in data.items()})
