@@ -1,0 +1,64 @@
+system,kind,item,examples_india,priority,status,matched_ids,source
+Kidney and upper tract,device,PCNL nephroscope (standard and mini),Richard Wolf / Karl Storz nephroscopes via Stark Urology (listings),core,gap,,web search 2026-11-20 / core knowledge
+Kidney and upper tract,device,Nephrostomy catheter (pigtail / Malecot),Devon pigtail PCN; Nidhi Malecot; Blueneem PCN,core,have,L-0002;L-0018;L-0032;L-0041,web search 2026-11-20 / core knowledge
+Kidney and upper tract,device,Ureteral access sheath,Rocamed Bi-Flex EVO; Blueneem access sheath,core,have,L-0002;L-0015;L-0032,web search 2026-11-20 / core knowledge
+Stones,device,Semi-rigid ureteroscope,"Indoview (not found online); Stryker, Olympus",core,have,L-0005;L-0006;L-0009;L-0052,web search 2026-11-20 / core knowledge
+Stones,device,Flexible ureteroscope (digital or reusable),Indoscope Sleek; Onli8; LithoVue,core,have,L-0006;L-0009;L-0052;L-0055,web search 2026-11-20 / core knowledge
+Stones,device,Holmium laser lithotripsy,Potent HP / XP / HZ; Allengers BLAZE; Status Astra-35,core,have,L-0017;L-0028;L-0044;L-0046;L-0047;L-0056,web search 2026-11-20 / core knowledge
+Stones,device,Thulium fibre laser,Quantino 75 W; Potent Pulsed Master; Make in India Lasers,core,have,L-0004;L-0007;L-0045;L-0051;L-0060;L-0084,web search 2026-11-20 / core knowledge
+Stones,device,Pneumatic lithotripter,Status Calculiclast; Nidhi LITH Digi,core,have,L-0007;L-0017;L-0027;L-0028;L-0044;L-0056,web search 2026-11-20 / core knowledge
+Stones,device,Stone retrieval basket,Devon helical; Kobot (Rocamed); Nidhi nitinol,core,have,L-0002;L-0012;L-0018;L-0036;L-0037;L-0038,web search 2026-11-20 / core knowledge
+Stones,device,Double-J ureteral stent,Devon; Nidhi; Blueneem,core,have,L-0002;L-0018;L-0032;L-0039;L-0040;L-0043,web search 2026-11-20 / core knowledge
+Stones,device,Hydrostatic / irrigation pump,Nidhi Easy Flow 823; Status Hydromat,core,have,L-0053;L-0066;L-0076,web search 2026-11-20 / core knowledge
+Stones,drug,Tamsulosin (medical expulsive therapy),URISE-D / Tamday-D are combos (web),core,gap,,web search 2026-11-20 / core knowledge
+Stones,drug,Potassium citrate (stone prevention),Not checked online,core,gap,,web search 2026-11-20 / core knowledge
+Stones,drug,Allopurinol / thiazide (metabolic stone prevention),Not checked online,secondary,gap,,web search 2026-11-20 / core knowledge
+Ureter and bladder,device,Rigid or flexible cystoscope,Indoscope; Nidhi cystoscope sheath; Potent,core,have,L-0032;L-0079,web search 2026-11-20 / core knowledge
+Ureter and bladder,device,Urodynamic system,Nexam Pro (Laborie); Potent; Status UroComp-2000,core,have,L-0021;L-0029;L-0047;L-0048;L-0049;L-0067,web search 2026-11-20 / core knowledge
+Ureter and bladder,device,Uroflowmeter,Nidhi Flow 814 / 8130 / 8150; Status FlowComp; Origin OriUFM,core,have,L-0013;L-0014;L-0030;L-0031;L-0050;L-0070,web search 2026-11-20 / core knowledge
+Ureter and bladder,device,Urinary drainage catheter (Foley / CIC),Devon CIC catheter; Blueneem,core,have,L-0002;L-0018;L-0032;L-0039;L-0041;L-0042,web search 2026-11-20 / core knowledge
+Ureter and bladder,drug,Solifenacin (OAB antimuscarinic),SOLIES 10 (JOHNLEE); many generics,core,gap,,web search 2026-11-20 / core knowledge
+Ureter and bladder,drug,Oxybutynin / tolterodine / fesoterodine,Tolterodine-tamsulosin combos seen online,core,gap,,web search 2026-11-20 / core knowledge
+Ureter and bladder,drug,Mirabegron (beta-3 agonist),"Lupin (US launch, per news); India brands",core,have,L-0035,web search 2026-11-20 / core knowledge
+Ureter and bladder,drug,Vibegron,"MSN Laboratories Phase III approval (CDSCO, 2025)",secondary,gap,,web search 2026-11-20 / core knowledge
+Ureter and bladder,drug,Desmopressin (nocturia),Not checked online,secondary,gap,,web search 2026-11-20 / core knowledge
+Bladder cancer,drug,BCG for intravesical immunotherapy,"Onco-BCG (SII); Onco BCG (Cipla, per listings)",core,gap,,web search 2026-11-20 / core knowledge
+Bladder cancer,drug,Mitomycin C (intravesical),Not found online,core,gap,,web search 2026-11-20 / core knowledge
+Prostate,drug,Finasteride (5-alpha reductase inhibitor),Finax (Dr Reddy's),core,gap,,web search 2026-11-20 / core knowledge
+Prostate,drug,Dutasteride (5-ARI),"Combos only (Rapilif D, URISE-D)",core,have,L-0090,web search 2026-11-20 / core knowledge
+Prostate,drug,Tadalafil (BPH and ED),Combos (Alfusin T); standalone not recorded,core,have,L-0001,web search 2026-11-20 / core knowledge
+Prostate,drug,Alfuzosin / silodosin (alpha-blockers),Alfusin T; Rapilif D; Rapaflo generics,core,have,L-0001;L-0034;L-0090,web search 2026-11-20 / core knowledge
+Prostate,device,Bipolar TURP working element,Alan Bipolar TURP (Maruthi); Nidhi resectoscope,core,have,L-0016;L-0054;L-0077;L-0081,web search 2026-11-20 / core knowledge
+Prostate,device,HoLEP laser,Potent HP / Allengers / Boston Scientific MOSES (web),core,have,L-0017;L-0028;L-0044;L-0046;L-0047;L-0056,web search 2026-11-20 / core knowledge
+Prostate,device,GreenLight 532 nm photoselective laser,Boston Scientific XPS 180 W (global page),secondary,gap,,web search 2026-11-20 / core knowledge
+Prostate,device,Water-vapour therapy (Rezum),"Hospital pages (Patel, Fortis Mohali)",secondary,gap,,web search 2026-11-20 / core knowledge
+Prostate,device,Prostate minimally invasive implant (UroLift),Teleflex UroLift India (Jan 2023),core,have,L-0024;L-0093,web search 2026-11-20 / core knowledge
+Prostate,device,Prostate biopsy (TRUS and MRI fusion),Eigen Artemis (V.P Impex),core,have,L-0023,web search 2026-11-20 / core knowledge
+Prostate,device,Prostate morcellator,Biorad TOMI; Allengers Dynacut,secondary,have,L-0011;L-0054;L-0062,web search 2026-11-20 / core knowledge
+Prostate cancer,drug,Bicalutamide (anti-androgen),Caluran CP 50 mg (Sun),core,have,L-0086,web search 2026-11-20 / core knowledge
+Prostate cancer,drug,Abiraterone (CYP17 inhibitor),Zelgor 250 mg (Sun); cheaper generics,core,have,L-0087,web search 2026-11-20 / core knowledge
+Prostate cancer,drug,Enzalutamide,Obnyx (Zydus); Bdenza (BDR),core,gap,,web search 2026-11-20 / core knowledge
+Prostate cancer,drug,Apalutamide,"Apatide (BDR, first generic)",core,gap,,web search 2026-11-20 / core knowledge
+Prostate cancer,drug,Darolutamide,No Indian brand found,secondary,gap,,web search 2026-11-20 / core knowledge
+Prostate cancer,drug,GnRH: degarelix (antagonist),Degapride (Sun),core,have,L-0085,web search 2026-11-20 / core knowledge
+Prostate cancer,drug,"GnRH agonists (leuprolide, goserelin)",Not checked online,core,gap,,web search 2026-11-20 / core knowledge
+Prostate cancer,drug,Docetaxel (chemotherapy),Not checked online,secondary,gap,,web search 2026-11-20 / core knowledge
+Kidney cancer,drug,"Tyrosine kinase inhibitors and immunotherapy (sunitinib, pazopanib, nivolumab)",Not checked online,secondary,gap,,web search 2026-11-20 / core knowledge
+Erectile dysfunction,drug,Sildenafil,Not recorded,core,gap,,web search 2026-11-20 / core knowledge
+Erectile dysfunction,drug,Tadalafil (ED),Alfusin T combo; standalone not recorded,core,have,L-0001,web search 2026-11-20 / core knowledge
+Erectile dysfunction,drug,Alprostadil (intracavernosal),Not checked online,secondary,gap,,web search 2026-11-20 / core knowledge
+Erectile dysfunction,device,Inflatable penile prosthesis,AMS 700 (Boston Scientific),core,have,L-0092,web search 2026-11-20 / core knowledge
+Incontinence,device,Artificial urinary sphincter,AMS 800 (Boston Scientific),core,have,L-0091;L-0092,web search 2026-11-20 / core knowledge
+Incontinence,device,Synthetic sling (midurethral / male),Lotus Freedom transobturator,core,have,L-0033,web search 2026-11-20 / core knowledge
+Incontinence,device,Sacral neuromodulation,Medtronic InterStim X,core,have,L-0022,web search 2026-11-20 / core knowledge
+Incontinence,device,Pelvic floor biofeedback,Status Biofeedback device,secondary,have,L-0021;L-0069,web search 2026-11-20 / core knowledge
+Infection,drug,Nitrofurantoin / fosfomycin (uncomplicated UTI),Not recorded,core,gap,,web search 2026-11-20 / core knowledge
+Infection,drug,Fluoroquinolones and cephalosporins (complicated UTI),Not recorded,core,gap,,web search 2026-11-20 / core knowledge
+Andrology,drug,Testosterone (replacement),Not recorded,secondary,gap,,web search 2026-11-20 / core knowledge
+Surgery general,device,Laparoscopic instruments,Shree Surgical (listing only),core,have,L-0080;L-0083,web search 2026-11-20 / core knowledge
+Surgery general,device,Electrosurgical unit and cautery,Alan cautery (Maruthi),core,have,L-0081;L-0082,web search 2026-11-20 / core knowledge
+Surgery general,device,Endoscopic video system and camera,e-lite (Biorad); Indocam; Status,core,have,L-0008;L-0021;L-0055;L-0067,web search 2026-11-20 / core knowledge
+Surgery general,device,Cold light source,Nidhi LED light source,core,have,L-0080,web search 2026-11-20 / core knowledge
+Surgery general,device,Sterilisation and tray system,"Endosys; Ambal (IT, not device)",core,have,L-0025;L-0083,web search 2026-11-20 / core knowledge
+Surgery general,device,Robotic surgical system,da Vinci: 180+ systems in India (web),secondary,gap,,web search 2026-11-20 / core knowledge
+Diagnostics,device,Bladder scanner / urological ultrasound,Not recorded,secondary,have,L-0016;L-0019;L-0023,web search 2026-11-20 / core knowledge

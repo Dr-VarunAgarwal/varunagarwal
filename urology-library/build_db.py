@@ -11,7 +11,7 @@ import csv, os, sqlite3
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "urology_library.sqlite")
 
-TABLES = {"products": "library.csv", "manufacturers": "manufacturers.csv", "contacts": "contacts.csv", "pricing": "pricing.csv", "procedures": "procedures.csv"}
+TABLES = {"products": "library.csv", "manufacturers": "manufacturers.csv", "contacts": "contacts.csv", "pricing": "pricing.csv", "procedures": "procedures.csv", "gaps": "gaps.csv"}
 
 if os.path.exists(OUT):
     os.remove(OUT)
@@ -21,7 +21,8 @@ for table, fn in TABLES.items():
         rows = list(csv.reader(f))
     header, body = rows[0], rows[1:]
     cols = ", ".join(f'"{h}" TEXT' for h in header)
-    con.execute(f'CREATE TABLE {table} ({cols}, PRIMARY KEY ("id"))')
+    pk = ', PRIMARY KEY ("id")' if "id" in header else ""
+    con.execute(f'CREATE TABLE {table} ({cols}{pk})')
     con.executemany(
         f'INSERT INTO {table} VALUES ({",".join("?" * len(header))})',
         [r + [""] * (len(header) - len(r)) for r in body],

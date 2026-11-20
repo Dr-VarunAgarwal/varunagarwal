@@ -18,6 +18,7 @@ data = {
     "procedures": load("procedures.csv"),
     "manufacturers": load("manufacturers.csv"),
     "contacts": load("contacts.csv"),
+    "gaps": load("gaps.csv"),
 }
 payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
 ICON_DIR = os.path.join(HERE, "reference", "assets", "tabler-icons")
@@ -153,7 +154,8 @@ nav button .ic{color:inherit;opacity:.9;width:17px;height:17px;flex:0 0 17px}
         <button data-v="procs" title="Procedure costs">[[icon:report-medical]]<span>Procedures</span><i class="n" id="nProcs"></i></button>
         <button data-v="devices" title="Devices">[[icon:microscope]]<span>Devices</span><i class="n" id="nDev"></i></button>
         <button data-v="companies" title="Companies">[[icon:hospital]]<span>Companies</span><i class="n" id="nCo"></i></button>
-        <button data-v="contacts" title="Contacts">[[icon:nurse]]<span>Contacts</span><i class="n" id="nCt"></i></button>
+        <button data-v="gaps" title="Gaps">[[icon:checklist]]<span>Gaps</span><i class="n" id="nGap"></i></button>
+      <button data-v="contacts" title="Contacts">[[icon:nurse]]<span>Contacts</span><i class="n" id="nCt"></i></button>
       </nav>
       <div class="bar-tools">
         <button class="iconbtn" id="modeBtn" title="Day or night" aria-label="Switch day or night">[[icon:sun]]</button>
@@ -172,6 +174,7 @@ nav button .ic{color:inherit;opacity:.9;width:17px;height:17px;flex:0 0 17px}
     <section id="v-procs" class="hidden"></section>
     <section id="v-devices" class="hidden"></section>
     <section id="v-companies" class="hidden"></section>
+    <section id="v-gaps" class="hidden"></section>
     <section id="v-contacts" class="hidden"></section>
   </main>
 </div>
@@ -187,13 +190,13 @@ const drugs = D.products.filter(p => p.category === 'drug');
 const devices = D.products.filter(p => p.category !== 'drug');
 const q = () => $('q').value.trim().toLowerCase();
 const hit = (o, fields) => { const s = q(); return !s || fields.map(f => o[f] || '').join(' ').toLowerCase().includes(s); };
-const PAGES = {home:'Overview', drugs:'Drugs & prices', procs:'Procedure costs', devices:'Devices', companies:'Companies', contacts:'Contacts'};
+const PAGES = {home:'Overview', drugs:'Drugs & prices', procs:'Procedure costs', devices:'Devices', companies:'Companies', gaps:'Gaps in the database', contacts:'Contacts'};
 let view = 'home';
 
 function show(v){
   view = v;
   document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
-  ['home','drugs','procs','devices','companies','contacts'].forEach(x => $('v-'+x).classList.toggle('hidden', x !== v));
+  ['home','drugs','procs','devices','companies','gaps','contacts'].forEach(x => $('v-'+x).classList.toggle('hidden', x !== v));
   $('title').textContent = PAGES[v];
   render(v);
 }
@@ -204,6 +207,7 @@ function render(v){
   if(v==='procs') renderProcs();
   if(v==='devices') renderDevices();
   if(v==='companies') renderCompanies();
+  if(v==='gaps') renderGaps();
   if(v==='contacts') renderContacts();
 }
 
@@ -344,6 +348,26 @@ function renderCompanies(){
   $('sub').textContent = `${rows.length} compan${rows.length===1?'y':'ies'}. Click for details and contacts.`;
   $('v-companies').innerHTML = `<div class="grid">${rows.map(cardCo).join('')}</div>`;
 }
+
+function renderGaps(){
+  const G = D.gaps;
+  const rows = G.filter(g => hit(g,['system','item','examples_india','kind']));
+  const have = G.filter(g=>g.status==='have').length, gap = G.filter(g=>g.status==='gap').length;
+  $('sub').textContent = `${have} of ${G.length} core items covered. ${gap} gaps to fill, ordered by system.`;
+  const systems = [...new Set(rows.map(g=>g.system))];
+  $('v-gaps').innerHTML = `<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));margin-bottom:6px">
+      <div class="card stat"><b>${G.length}</b><span>core items checked</span></div>
+      <div class="card stat"><b style="color:var(--ok)">${have}</b><span>covered in your database</span></div>
+      <div class="card stat"><b style="color:var(--warn)">${gap}</b><span>gaps</span></div></div>`
+    + systems.map(sys => {
+        const items = rows.filter(g=>g.system===sys);
+        const sg = items.filter(g=>g.status==='gap').length;
+        return `<h2>${esc(sys)} <span class="note">· ${items.length-sg}/${items.length} covered</span></h2>
+        <table><tr><th>Item</th><th>Type</th><th>Examples found online</th><th>Priority</th><th>Status</th></tr>
+        ${items.map(g=>`<tr><td><b>${esc(g.item)}</b></td><td>${esc(g.kind)}</td><td>${esc(g.examples_india)}</td><td>${esc(g.priority)}</td><td>${g.status==='have'?'<span class="pill web-verified">covered</span>':'<span class="pill unverified">gap</span>'}</td></tr>`).join('')}
+        </table>`;}).join('') || '<p class="lead">Nothing matches.</p>';
+}
+
 function renderContacts(){
   const rows = D.contacts.filter(c => hit(c,['person_name','organization','role_title','notes','email','phone']));
   $('sub').textContent = `${rows.length} contact${rows.length===1?'':'s'}. Phone and email are stored locally.`;
@@ -425,7 +449,7 @@ applySettings();
 matchMedia('(prefers-color-scheme: dark)').addEventListener && matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySettings);
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDetail(); });
 $('nDrugs').textContent = drugs.length; $('nDev').textContent = devices.length; $('nProcs').textContent = D.procedures.length;
-$('nCo').textContent = D.manufacturers.length; $('nCt').textContent = D.contacts.length;
+$('nCo').textContent = D.manufacturers.length; $('nCt').textContent = D.contacts.length; $('nGap').textContent = D.gaps.filter(g=>g.status==='gap').length;
 show('home');
 </script></body></html>
 """
