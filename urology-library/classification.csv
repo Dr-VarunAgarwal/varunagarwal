@@ -1,0 +1,94 @@
+product_id,group_kind,group_name
+L-0090,generic,silodosin
+L-0089,generic,potassium magnesium citrate
+L-0086,generic,bicalutamide
+L-0088,generic,cranberry extract
+L-0089,generic,cranberry extract
+L-0020,generic,autologous buccal cells (AALBEC)
+L-0087,generic,abiraterone acetate
+L-0089,generic,D-mannose
+L-0090,generic,dutasteride
+L-0034,generic,silodosin
+L-0085,generic,degarelix
+L-0088,generic,D-mannose
+L-0001,generic,tadalafil
+L-0035,generic,mirabegron
+L-0001,generic,alfuzosin
+L-0017,device_type,Holmium laser lithotripsy / HoLEP
+L-0028,device_type,Holmium laser lithotripsy / HoLEP
+L-0044,device_type,Holmium laser lithotripsy / HoLEP
+L-0046,device_type,Holmium laser lithotripsy / HoLEP
+L-0047,device_type,Holmium laser lithotripsy / HoLEP
+L-0056,device_type,Holmium laser lithotripsy / HoLEP
+L-0057,device_type,Holmium laser lithotripsy / HoLEP
+L-0058,device_type,Holmium laser lithotripsy / HoLEP
+L-0059,device_type,Holmium laser lithotripsy / HoLEP
+L-0063,device_type,Holmium laser lithotripsy / HoLEP
+L-0007,device_type,Thulium fibre laser
+L-0045,device_type,Thulium fibre laser
+L-0051,device_type,Thulium fibre laser
+L-0084,device_type,Thulium fibre laser
+L-0060,device_type,"Fibre laser (thulium or holmium, unstated)"
+L-0061,device_type,"Fibre laser (thulium or holmium, unstated)"
+L-0005,device_type,Semi-rigid ureteroscope
+L-0006,device_type,Flexible ureteroscope
+L-0009,device_type,Flexible ureteroscope
+L-0052,device_type,Flexible ureteroscope
+L-0027,device_type,Pneumatic lithotripter
+L-0064,device_type,Pneumatic lithotripter
+L-0065,device_type,Pneumatic lithotripter
+L-0071,device_type,Pneumatic lithotripter
+L-0072,device_type,Pneumatic lithotripter
+L-0012,device_type,Stone retrieval basket
+L-0036,device_type,Stone retrieval basket
+L-0037,device_type,Stone retrieval basket
+L-0038,device_type,Stone retrieval basket
+L-0039,device_type,Guidewire
+L-0040,device_type,Ureteral stent
+L-0078,device_type,Ureteral stent
+L-0043,device_type,Ureteral stent
+L-0041,device_type,Nephrostomy catheter
+L-0042,device_type,Urinary drainage catheter
+L-0015,device_type,Ureteral access sheath
+L-0014,device_type,Uroflowmeter
+L-0030,device_type,Uroflowmeter
+L-0031,device_type,Uroflowmeter
+L-0050,device_type,Uroflowmeter
+L-0070,device_type,Uroflowmeter
+L-0073,device_type,Uroflowmeter
+L-0074,device_type,Uroflowmeter
+L-0075,device_type,Uroflowmeter
+L-0021,device_type,Urodynamic system
+L-0029,device_type,Urodynamic system
+L-0048,device_type,Urodynamic system
+L-0049,device_type,Urodynamic system
+L-0067,device_type,Urodynamic system
+L-0068,device_type,Urodynamic system
+L-0066,device_type,Irrigation pump
+L-0076,device_type,Irrigation pump
+L-0011,device_type,Morcellator
+L-0054,device_type,Morcellator
+L-0062,device_type,Morcellator
+L-0077,device_type,Bipolar TURP / resectoscope
+L-0081,device_type,Bipolar TURP / resectoscope
+L-0082,device_type,Electrosurgical unit
+L-0008,device_type,Endoscopy video system
+L-0055,device_type,Endoscopy video system
+L-0010,device_type,Irrigation and suction accessory
+L-0053,device_type,Irrigation and suction accessory
+L-0079,device_type,Irrigation and suction accessory
+L-0080,device_type,Cold light source
+L-0069,device_type,Pelvic floor biofeedback
+L-0033,device_type,Pelvic floor sling
+L-0092,device_type,Penile prosthesis
+L-0091,device_type,Artificial urinary sphincter
+L-0022,device_type,Sacral neuromodulation
+L-0019,device_type,Prostate thermal ablation
+L-0016,device_type,Prostate thermal ablation
+L-0024,device_type,Prostate implant (UroLift)
+L-0023,device_type,Prostate biopsy and imaging
+L-0026,device_type,Surgical planning software
+L-0025,device_type,Sterilisation
+L-0083,device_type,Sterilisation
+L-0018,device_type,Urology disposables (general)
+L-0032,device_type,Urology disposables (general)

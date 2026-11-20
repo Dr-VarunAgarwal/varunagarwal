@@ -19,6 +19,7 @@ data = {
     "manufacturers": load("manufacturers.csv"),
     "contacts": load("contacts.csv"),
     "gaps": load("gaps.csv"),
+    "classification": load("classification.csv"),
 }
 payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
 ICON_DIR = os.path.join(HERE, "reference", "assets", "tabler-icons")
@@ -134,6 +135,12 @@ td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-num
 .sheet dt{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
 .sheet dd{margin:0;word-break:break-word}
 .hidden{display:none!important}
+.tray{position:fixed;left:50%;bottom:18px;transform:translate(-50%,140%);display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 10px 8px 18px;box-shadow:0 12px 40px rgba(0,0,0,.18);transition:transform .25s ease;z-index:7}
+.tray.show{transform:translate(-50%,0)}
+.tablewrap{overflow-x:auto;border-radius:14px}
+table.cmp td.lab{font:600 11px var(--sans);text-transform:uppercase;letter-spacing:.1em;color:var(--accent);white-space:nowrap;width:150px}
+table.cmp th{min-width:200px;text-transform:none;letter-spacing:0;font-size:13px;color:var(--ink)}
+input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
 .hero{display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(120deg,var(--accent-soft),var(--card) 70%);border:1px solid var(--line);border-radius:16px;padding:22px 26px;margin-bottom:18px;box-shadow:var(--shadow);overflow:hidden}
 
 .ic{width:18px;height:18px;flex:0 0 18px;vertical-align:-4px;color:var(--accent)}
@@ -154,7 +161,9 @@ nav button .ic{color:inherit;opacity:.9;width:17px;height:17px;flex:0 0 17px}
         <button data-v="procs" title="Procedure costs">[[icon:report-medical]]<span>Procedures</span><i class="n" id="nProcs"></i></button>
         <button data-v="devices" title="Devices">[[icon:microscope]]<span>Devices</span><i class="n" id="nDev"></i></button>
         <button data-v="companies" title="Companies">[[icon:hospital]]<span>Companies</span><i class="n" id="nCo"></i></button>
-        <button data-v="gaps" title="Gaps">[[icon:checklist]]<span>Gaps</span><i class="n" id="nGap"></i></button>
+        <button data-v="groups" title="Group by generic or type">[[icon:sitemap]]<span>Groups</span></button>
+      <button data-v="compare" title="Compare selected items">[[icon:git-compare]]<span>Compare</span><i class="n" id="nCmp"></i></button>
+      <button data-v="gaps" title="Gaps">[[icon:checklist]]<span>Gaps</span><i class="n" id="nGap"></i></button>
       <button data-v="contacts" title="Contacts">[[icon:nurse]]<span>Contacts</span><i class="n" id="nCt"></i></button>
       </nav>
       <div class="bar-tools">
@@ -174,6 +183,8 @@ nav button .ic{color:inherit;opacity:.9;width:17px;height:17px;flex:0 0 17px}
     <section id="v-procs" class="hidden"></section>
     <section id="v-devices" class="hidden"></section>
     <section id="v-companies" class="hidden"></section>
+    <section id="v-groups" class="hidden"></section>
+    <section id="v-compare" class="hidden"></section>
     <section id="v-gaps" class="hidden"></section>
     <section id="v-contacts" class="hidden"></section>
   </main>
@@ -190,13 +201,13 @@ const drugs = D.products.filter(p => p.category === 'drug');
 const devices = D.products.filter(p => p.category !== 'drug');
 const q = () => $('q').value.trim().toLowerCase();
 const hit = (o, fields) => { const s = q(); return !s || fields.map(f => o[f] || '').join(' ').toLowerCase().includes(s); };
-const PAGES = {home:'Overview', drugs:'Drugs & prices', procs:'Procedure costs', devices:'Devices', companies:'Companies', gaps:'Gaps in the database', contacts:'Contacts'};
+const PAGES = {home:'Overview', drugs:'Drugs & prices', procs:'Procedure costs', devices:'Devices', companies:'Companies', gaps:'Gaps in the database', groups:'Group and compare', compare:'Compare', contacts:'Contacts'};
 let view = 'home';
 
 function show(v){
   view = v;
   document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
-  ['home','drugs','procs','devices','companies','gaps','contacts'].forEach(x => $('v-'+x).classList.toggle('hidden', x !== v));
+  ['home','drugs','procs','devices','companies','groups','compare','gaps','contacts'].forEach(x => $('v-'+x).classList.toggle('hidden', x !== v));
   $('title').textContent = PAGES[v];
   render(v);
 }
@@ -207,6 +218,8 @@ function render(v){
   if(v==='procs') renderProcs();
   if(v==='devices') renderDevices();
   if(v==='companies') renderCompanies();
+  if(v==='groups') renderGroups();
+  if(v==='compare') renderCompare();
   if(v==='gaps') renderGaps();
   if(v==='contacts') renderContacts();
 }
@@ -349,6 +362,76 @@ function renderCompanies(){
   $('v-companies').innerHTML = `<div class="grid">${rows.map(cardCo).join('')}</div>`;
 }
 
+// ---- grouping and comparison ----
+const CMP = new Set();
+let groupMode = 'generic';
+const byId = id => D.products.find(p => p.id === id);
+const priceRange = id => {
+  const pr = D.pricing.filter(x => x.product_id === id).map(x => +x.price_inr).filter(n => !isNaN(n));
+  if(!pr.length) return null;
+  return {min: Math.min(...pr), max: Math.max(...pr), n: pr.length};
+};
+const priceText = id => {
+  const r = priceRange(id); if(!r) return '–';
+  return r.min === r.max ? inr(r.min) : `${inr(r.min)} – ${inr(r.max)}`;
+};
+function groupsOf(kind){
+  const map = {};
+  D.classification.filter(c => kind === 'generic' ? c.group_kind === 'generic' : c.group_kind === 'device_type')
+    .forEach(c => { (map[c.group_name] = map[c.group_name] || []).push(c.product_id); });
+  return Object.entries(map).map(([name, ids]) => ({name, items: ids.map(byId).filter(Boolean)}))
+    .sort((a,b) => a.name.localeCompare(b.name));
+}
+function toggleCmp(id, on){
+  if(on === undefined) on = !CMP.has(id);
+  on ? CMP.add(id) : CMP.delete(id);
+  updateTray();
+}
+window.toggleCmp = toggleCmp;
+function updateTray(){
+  $('nCmp').textContent = CMP.size ? CMP.size : '';
+  let t = $('tray');
+  if(!t){ t = document.createElement('div'); t.id = 'tray'; t.className = 'tray noprint'; document.body.appendChild(t); }
+  t.classList.toggle('show', CMP.size > 0);
+  t.innerHTML = `<span><b>${CMP.size}</b> selected</span>
+    <button class="btn primary" onclick="show('compare')">Compare</button>
+    <button class="btn" onclick="CMP.clear();updateTray();if(view==='compare'||view==='groups')render(view)">Clear</button>`;
+}
+function renderGroups(){
+  $('sub').textContent = groupMode === 'generic'
+    ? 'Drugs grouped by active ingredient. Tick items to compare them across vendors.'
+    : 'Devices grouped by type. Tick items to compare them across vendors.';
+  const seg = `<div class="seg" style="margin-bottom:14px"><button class="btn ${groupMode==='generic'?'primary':''}" onclick="groupMode='generic';renderGroups()">Drugs by generic</button><button class="btn ${groupMode==='device'?'primary':''}" onclick="groupMode='device';renderGroups()">Devices by type</button></div>`;
+  const groups = groupsOf(groupMode).filter(g => hit({name:g.name}, ['name']) || g.items.some(p => hit(p,['name','manufacturer_company','use_indication'])));
+  const body = groups.map(g => {
+    const items = g.items.filter(p => hit(p,['name','manufacturer_company','use_indication','notes']) || hit({name:g.name},['name']));
+    return `<h2>${esc(g.name)} <span class="note">· ${items.length} vendor${items.length===1?'':'s'}</span></h2>
+    <table><tr><th style="width:36px"></th><th>Product</th><th>Company</th><th class="num">Price</th><th>Status</th></tr>
+    ${items.map(p => `<tr class="row"><td><input type="checkbox" ${CMP.has(p.id)?'checked':''} onclick="event.stopPropagation();toggleCmp('${esc(p.id)}',this.checked)"></td>
+      <td onclick="openItem('${esc(p.id)}')"><b>${esc(p.name)}</b></td><td>${esc(p.manufacturer_company)}</td>
+      <td class="num">${priceText(p.id)}</td><td>${pill(p.verification_status)}</td></tr>`).join('')}
+    </table>`;
+  }).join('');
+  $('v-groups').innerHTML = seg + (body || '<p class="lead">Nothing matches.</p>');
+}
+function renderCompare(){
+  const items = [...CMP].map(byId).filter(Boolean);
+  $('sub').textContent = items.length ? `${items.length} item${items.length===1?'':'s'} side by side.` : 'Nothing selected yet.';
+  if(!items.length){ $('v-compare').innerHTML = '<p class="lead">Tick items in Groups or Drugs to compare them here.</p>'; return; }
+  const rows = [
+    ['Company', p => esc(p.manufacturer_company)],
+    ['Category', p => esc(p.category)],
+    ['Use / indication', p => esc(p.use_indication)],
+    ['Key specs', p => esc(p.key_specs)],
+    ['Price (rep quote and web)', p => priceText(p.id) + (priceRange(p.id) && priceRange(p.id).n>1 ? '<div class="note">' + D.pricing.filter(x=>x.product_id===p.id).map(x=>`${esc(x.price_note||x.pack)}: ${inr(x.price_inr)}`).join('<br>') + '</div>' : '')],
+    ['Regulatory (as found)', p => esc(p.regulatory_status)],
+    ['Status', p => pill(p.verification_status)],
+    ['Notes', p => esc(p.notes)],
+  ];
+  $('v-compare').innerHTML = `<div class="tablewrap"><table class="cmp"><tr><th></th>${items.map(p=>`<th><a href="#" onclick="openItem('${esc(p.id)}');return false">${esc(p.name)}</a><div><button class="btn" style="padding:3px 8px;font-size:11px" onclick="toggleCmp('${esc(p.id)}',false);renderCompare()">Remove</button></div></th>`).join('')}</tr>
+    ${rows.map(([l,f]) => `<tr><td class="lab">${l}</td>${items.map(p=>`<td>${f(p)}</td>`).join('')}</tr>`).join('')}</table></div>`;
+}
+
 function renderGaps(){
   const G = D.gaps;
   const rows = G.filter(g => hit(g,['system','item','examples_india','kind']));
@@ -449,7 +532,7 @@ applySettings();
 matchMedia('(prefers-color-scheme: dark)').addEventListener && matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySettings);
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDetail(); });
 $('nDrugs').textContent = drugs.length; $('nDev').textContent = devices.length; $('nProcs').textContent = D.procedures.length;
-$('nCo').textContent = D.manufacturers.length; $('nCt').textContent = D.contacts.length; $('nGap').textContent = D.gaps.filter(g=>g.status==='gap').length;
+$('nCo').textContent = D.manufacturers.length; updateTray(); $('nCt').textContent = D.contacts.length; $('nGap').textContent = D.gaps.filter(g=>g.status==='gap').length;
 show('home');
 </script></body></html>
 """
