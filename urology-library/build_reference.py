@@ -27,32 +27,35 @@ HTML = r"""<!DOCTYPE html>
 <title>Urology Reference Centre</title>
 <style>
 :root{
-  --paper:#faf7f2; --card:#ffffff; --ink:#1f2328; --muted:#6b6f76; --line:#e7e1d6;
-  --accent:#1f5f5b; --accent-soft:#e3f0ee; --gold:#b08a3e; --warn:#a8632b; --ok:#2f7a4f; --shadow:0 1px 2px rgba(31,35,40,.06),0 8px 24px rgba(31,35,40,.06);
-  --serif:Georgia,"Iowan Old Style","Palatino Linotype",serif; --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --paper:#f3f7f7; --card:#ffffff; --ink:#0f2a2e; --muted:#5b7477; --line:#d6e3e4;
+  --accent:#0b6f7a; --accent-soft:#e2f1f2; --gold:#2f8f86; --warn:#b8641c; --ok:#17825a; --shadow:0 1px 2px rgba(15,42,46,.05),0 10px 30px rgba(15,42,46,.06);
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; --serif:var(--sans); --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){ --paper:#14171a; --card:#1d2227; --ink:#e9e6df; --muted:#9aa1a9; --line:#2c3339;
-    --accent:#7fc4bd; --accent-soft:#1f3432; --gold:#d4b06a; --warn:#e0a06a; --ok:#7fcf9d; --shadow:none; }
+  :root:not([data-theme="light"]){ --paper:#0b1517; --card:#102023; --ink:#dff3f2; --muted:#8fb3b3; --line:#1d3a3e;
+    --accent:#5fd0cc; --accent-soft:#12333a; --gold:#7fd9c9; --warn:#f0a35c; --ok:#6fe0a6; --shadow:none; }
 }
-:root[data-theme="dark"]{ --paper:#14171a; --card:#1d2227; --ink:#e9e6df; --muted:#9aa1a9; --line:#2c3339;
-  --accent:#7fc4bd; --accent-soft:#1f3432; --gold:#d4b06a; --warn:#e0a06a; --ok:#7fcf9d; --shadow:none; }
+:root[data-theme="dark"]{ --paper:#0b1517; --card:#102023; --ink:#dff3f2; --muted:#8fb3b3; --line:#1d3a3e;
+  --accent:#5fd0cc; --accent-soft:#12333a; --gold:#7fd9c9; --warn:#f0a35c; --ok:#6fe0a6; --shadow:none; }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 var(--sans)}
 .wrap{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
 @media(max-width:860px){.wrap{grid-template-columns:1fr}aside{position:static!important;height:auto!important}}
 aside{position:sticky;top:0;height:100vh;padding:26px 18px;border-right:1px solid var(--line);background:var(--card)}
-.brand{font:700 20px/1.2 var(--serif);margin:0 0 4px}
+.brand{font:700 18px/1.2 var(--sans);letter-spacing:.02em;margin:0 0 4px;text-transform:uppercase}
+.pulse{display:block;width:100%;height:34px;margin:6px 0 4px}
 .tag{color:var(--muted);font-size:12px;margin-bottom:22px}
 nav button{display:flex;width:100%;text-align:left;gap:10px;align-items:center;border:0;background:none;color:var(--ink);padding:9px 10px;border-radius:8px;cursor:pointer;font:inherit}
 nav button:hover{background:var(--accent-soft)}
-nav button.on{background:var(--accent);color:#fff}
+nav button.on{background:var(--accent);color:#fff;box-shadow:0 0 0 1px var(--accent)}
 nav .n{margin-left:auto;font-size:12px;opacity:.7}
 .side-foot{position:absolute;bottom:18px;left:18px;right:18px;font-size:12px;color:var(--muted)}
-main{padding:30px clamp(18px,4vw,48px) 60px;max-width:1180px}
+aside{background:linear-gradient(180deg,var(--card),var(--paper))}
+main{padding:30px clamp(18px,4vw,48px) 60px;max-width:1180px;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;background-position:-1px -1px;background-blend-mode:normal}
+main>*{position:relative}
 header.top{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:22px}
-h1{font:700 30px/1.15 var(--serif);margin:0;letter-spacing:-.01em}
-h2{font:600 20px/1.3 var(--serif);margin:26px 0 10px}
+h1{font:600 26px/1.15 var(--sans);margin:0;letter-spacing:-.01em}
+h2{font:600 13px/1.3 var(--sans);margin:26px 0 10px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent)}
 .lead{color:var(--muted);margin:4px 0 0}
 .search{flex:1;min-width:220px;display:flex;gap:8px;margin-left:auto}
 .search input{flex:1;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:inherit}
@@ -60,29 +63,29 @@ h2{font:600 20px/1.3 var(--serif);margin:26px 0 10px}
 button.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 14px;border-radius:999px;cursor:pointer;font:inherit}
 button.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
 .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
-.card .k{font:italic 13px var(--serif);color:var(--gold);text-transform:uppercase;letter-spacing:.08em}
-.card h3{font:600 17px/1.3 var(--serif);margin:4px 0 6px}
+.card{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:16px 18px;box-shadow:var(--shadow)}
+.card .k{font:600 11px var(--sans);color:var(--gold);text-transform:uppercase;letter-spacing:.12em}
+.card h3{font:600 16px/1.3 var(--sans);margin:4px 0 6px}
 .card p{margin:6px 0 0;color:var(--muted);font-size:14px}
-.stat b{display:block;font:700 28px var(--serif);color:var(--accent)}
+.stat b{display:block;font:600 28px var(--mono);color:var(--accent)}
 .stat span{color:var(--muted);font-size:13px}
 .pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-right:4px;white-space:nowrap}
 .pill.web-verified{color:var(--ok);border-color:var(--ok)}.pill.unverified{color:var(--warn);border-color:var(--warn)}
 .pill.from-source{color:var(--accent);border-color:var(--accent)}
 table{width:100%;border-collapse:separate;border-spacing:0;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
 th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;font-size:14px}
-th{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);background:var(--accent-soft);cursor:pointer;position:sticky;top:0}
+th{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);background:var(--accent-soft);cursor:pointer;position:sticky;top:0;font-weight:600}
 tr:last-child td{border-bottom:0}
 tr.row{cursor:pointer}tr.row:hover td{background:var(--accent-soft)}
-td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
 .est{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow);margin-bottom:18px}
-.est h3{font:600 19px var(--serif);margin:0 0 4px}
+.est h3{font:600 17px var(--sans);margin:0 0 4px}
 .fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin:12px 0}
 .fields label{font-size:12px;color:var(--muted);display:block;margin-bottom:3px}
 .fields input{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font:inherit}
 .result{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}
 .result div{background:var(--accent-soft);padding:12px 16px;border-radius:12px;min-width:170px}
-.result b{display:block;font:700 22px var(--serif);color:var(--accent)}
+.result b{display:block;font:600 20px var(--mono);color:var(--accent)}
 .result span{font-size:12px;color:var(--muted)}
 .note{font-size:13px;color:var(--muted);margin-top:8px}
 .warn{color:var(--warn)}
@@ -99,7 +102,8 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 <div class="wrap">
   <aside>
     <p class="brand">Urology<br>Reference Centre</p>
-    <div class="tag">Personal archive · drugs, devices, costs, contacts</div>
+    <svg class="pulse" viewBox="0 0 220 34" preserveAspectRatio="none" aria-hidden="true"><path d="M0 18 H52 L60 18 L66 6 L74 30 L82 12 L88 18 H140 L146 18 L152 10 L158 22 L164 18 H220" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round" opacity=".75"/></svg>
+    <div class="tag">Operating theatre reference · drugs, devices, costs, contacts</div>
     <nav id="nav">
       <button data-v="home" class="on">Overview</button>
       <button data-v="drugs">Drugs &amp; prices <span class="n" id="nDrugs"></span></button>
