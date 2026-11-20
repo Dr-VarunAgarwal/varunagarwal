@@ -1,0 +1,4 @@
+id,procedure,device_product_id,device_name,device_cost_inr,patient_total_low_inr,patient_total_high_inr,units_note,basis,source,verification_status,notes
+PR-0001,Artificial urinary sphincter implantation,L-0091,AMS 800,,700000,800000,One implant,Patient cost approx 7-8 lakh (user estimate); one Delhi clinic lists 815000,user note 2026-11-18; web clinic listing,from-source,Confirm model and what the quote includes (surgeon fee; hospital stay).
+PR-0002,UroLift procedure (BPH),L-0024,UroLift,77000,150000,350000,Per gun about 77000; about 4 guns per case (user),Device per gun from user (unverified). Patient total from AINU India page,user note 2026-11-18; ainuindia.org,unverified,Per-gun price has no web source. Patient range varies by city and case.
+PR-0003,AMS 700 inflatable penile implant,L-0092,AMS 700,,850000,850000,One implant,Approx from one Delhi clinic listing,web clinic listing (bookimed / Delhi clinic),unverified,Only one source. Confirm before quoting.
