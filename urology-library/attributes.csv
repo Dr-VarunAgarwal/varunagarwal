@@ -1,0 +1,90 @@
+product_id,dosage_form_or_kind,therapeutic_area
+L-0001,tablet (bilayer ER),LUTS / BPH and ED
+L-0005,instrument,Endourology: ureteroscopy
+L-0006,instrument,Endourology: ureteroscopy
+L-0007,device,Endourology: stones
+L-0008,device,Endoscopy: video
+L-0009,instrument,Endourology: ureteroscopy
+L-0010,accessory,Endourology: suction
+L-0011,device,LUTS / BPH: morcellation
+L-0012,instrument,Endourology: stones
+L-0014,device,Diagnostics: uroflowmetry
+L-0015,instrument,Endourology: access
+L-0016,device,LUTS / BPH: ablation
+L-0017,device,Endourology: stones and BPH
+L-0018,accessory,Endourology: disposables
+L-0019,device,LUTS / BPH: ablation
+L-0020,cell therapy (implant),Reconstruction (urethral stricture)
+L-0021,device,Diagnostics: urodynamics
+L-0022,device,Continence: neuromodulation
+L-0023,device,Oncology: prostate biopsy
+L-0024,device,LUTS / BPH: implant
+L-0025,device,Infection control: sterilisation
+L-0026,software,Surgical planning
+L-0027,device,Endourology: stones
+L-0028,device,Endourology: stones
+L-0029,device,Diagnostics: urodynamics
+L-0030,device,Diagnostics: uroflowmetry
+L-0031,device,Diagnostics: uroflowmetry
+L-0032,accessory,Endourology: disposables
+L-0033,device,Continence: sling
+L-0034,capsule,LUTS / BPH
+L-0035,tablet,Overactive bladder
+L-0036,instrument,Endourology: stones
+L-0037,instrument,Endourology: stones
+L-0038,instrument,Endourology: stones
+L-0039,instrument,Endourology: access
+L-0040,device,Stents and drainage
+L-0041,device,Stents and drainage
+L-0042,device,Catheters and drainage
+L-0043,device,Stents and drainage
+L-0044,device,Endourology: stones and BPH
+L-0045,device,Endourology: stones and BPH
+L-0046,device,Endourology: stones
+L-0047,device,Endourology: stones and BPH
+L-0048,device,Diagnostics: urodynamics
+L-0049,device,Diagnostics: urodynamics
+L-0050,device,Diagnostics: uroflowmetry
+L-0051,device,Endourology: stones
+L-0052,instrument,Endourology: ureteroscopy
+L-0053,accessory,Endourology: suction
+L-0054,device,LUTS / BPH: laser resection
+L-0055,device,Endoscopy: video
+L-0056,device,Endourology: stones and BPH
+L-0057,device,Endourology: stones and BPH
+L-0058,device,Endourology: stones
+L-0059,device,Endourology: stones
+L-0060,device,Endourology: stones
+L-0061,device,Endourology: stones
+L-0062,device,LUTS / BPH: morcellation
+L-0063,device,Endourology: stones
+L-0064,device,Endourology: stones
+L-0065,device,Endourology: stones
+L-0066,device,Endourology: irrigation
+L-0067,device,Diagnostics: urodynamics
+L-0068,furniture,Diagnostics: urodynamics
+L-0069,device,Continence: biofeedback
+L-0070,device,Diagnostics: uroflowmetry
+L-0071,device,Endourology: stones
+L-0072,device,Endourology: stones
+L-0073,device,Diagnostics: uroflowmetry
+L-0074,device,Diagnostics: uroflowmetry
+L-0075,device,Diagnostics: uroflowmetry
+L-0076,device,Endourology: irrigation
+L-0077,instrument,LUTS / BPH: TURP
+L-0078,device,Stents and drainage
+L-0079,instrument,Endourology: accessories
+L-0080,device,Endoscopy: light source
+L-0081,instrument,LUTS / BPH: TURP
+L-0082,device,Surgery: electrosurgery
+L-0083,accessory,Infection control: sterilisation
+L-0084,device,Endourology: stones
+L-0085,injection (vial),Oncology (prostate)
+L-0086,tablet,Oncology (prostate)
+L-0087,tablet,Oncology (prostate)
+L-0088,tablet,Infection prevention (UTI)
+L-0089,suspension (sugar-free),Infection prevention (UTI)
+L-0090,tablet / capsule,LUTS / BPH
+L-0091,device,Continence: sphincter
+L-0092,device,Sexual health: penile implant
+L-0093,cost note,LUTS / BPH: implant

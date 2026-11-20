@@ -20,6 +20,7 @@ data = {
     "contacts": load("contacts.csv"),
     "gaps": load("gaps.csv"),
     "classification": load("classification.csv"),
+    "attributes": load("attributes.csv"),
 }
 payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
 ICON_DIR = os.path.join(HERE, "reference", "assets", "tabler-icons")
@@ -71,6 +72,17 @@ body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 var(--sans
 .bar nav .ic{width:16px;height:16px;flex:0 0 16px;color:currentColor}
 .bar nav .n{font:600 10px var(--mono);color:var(--muted);background:var(--paper);border-radius:999px;padding:1px 6px;font-style:normal}
 .bar-tools{display:flex;gap:6px;flex:0 0 auto}
+.more{position:relative;flex:0 0 auto}
+.more>button{border:0;background:none;color:var(--muted);padding:7px 10px;border-radius:999px;cursor:pointer;font:500 13px var(--sans)}
+.more>button.on,.more>button:hover{color:var(--accent);background:var(--accent-soft)}
+.more .menu{display:none;position:absolute;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,.18);padding:6px;min-width:200px;z-index:12}
+.more .menu.open{display:block}
+.more .menu button{display:flex;gap:8px;align-items:center;width:100%;border:0;background:none;color:var(--ink);padding:8px 10px;border-radius:8px;cursor:pointer;font:500 13px var(--sans);text-align:left}
+.more .menu button:hover,.more .menu button.on{background:var(--accent-soft);color:var(--accent)}
+.more .menu .ic{width:16px;height:16px;color:currentColor}
+.filters{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin:0 0 16px}
+.filters label{font:600 11px var(--sans);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.filters select{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:500 13px var(--sans);min-width:200px}
 .iconbtn{width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer}
 .iconbtn .ic{width:18px;height:18px}
 .iconbtn:hover{border-color:var(--accent);color:var(--accent)}
@@ -157,14 +169,19 @@ nav button .ic{color:inherit;opacity:.9;width:17px;height:17px;flex:0 0 17px}
       <div class="brand-s">[[icon:medical-cross]]<span>Urology Reference</span></div>
       <nav id="nav">
         <button data-v="home" class="on" title="Overview">[[icon:heartbeat]]<span>Overview</span></button>
-        <button data-v="drugs" title="Drugs and prices">[[icon:pill]]<span>Drugs</span><i class="n" id="nDrugs"></i></button>
-        <button data-v="procs" title="Procedure costs">[[icon:report-medical]]<span>Procedures</span><i class="n" id="nProcs"></i></button>
+        <button data-v="drugs" title="Drugs">[[icon:pill]]<span>Drugs</span><i class="n" id="nDrugs"></i></button>
         <button data-v="devices" title="Devices">[[icon:microscope]]<span>Devices</span><i class="n" id="nDev"></i></button>
-        <button data-v="companies" title="Companies">[[icon:hospital]]<span>Companies</span><i class="n" id="nCo"></i></button>
-        <button data-v="groups" title="Group by generic or type">[[icon:sitemap]]<span>Groups</span></button>
-      <button data-v="compare" title="Compare selected items">[[icon:git-compare]]<span>Compare</span><i class="n" id="nCmp"></i></button>
-      <button data-v="gaps" title="Gaps">[[icon:checklist]]<span>Gaps</span><i class="n" id="nGap"></i></button>
-      <button data-v="contacts" title="Contacts">[[icon:nurse]]<span>Contacts</span><i class="n" id="nCt"></i></button>
+        <button data-v="groups" title="Groups">[[icon:sitemap]]<span>Groups</span></button>
+        <button data-v="compare" title="Compare">[[icon:git-compare]]<span>Compare</span><i class="n" id="nCmp"></i></button>
+        <div class="more">
+          <button id="moreBtn" title="More sections" aria-haspopup="true" aria-expanded="false">More ▾</button>
+          <div class="menu" id="moreMenu" role="menu">
+            <button data-v="procs" role="menuitem">[[icon:report-medical]]Procedure costs</button>
+            <button data-v="companies" role="menuitem">[[icon:hospital]]Companies</button>
+            <button data-v="contacts" role="menuitem">[[icon:nurse]]Contacts</button>
+            <button data-v="gaps" role="menuitem">[[icon:checklist]]Gaps</button>
+          </div>
+        </div>
       </nav>
       <div class="bar-tools">
         <button class="iconbtn" id="modeBtn" title="Day or night" aria-label="Switch day or night">[[icon:sun]]</button>
@@ -178,6 +195,7 @@ nav button .ic{color:inherit;opacity:.9;width:17px;height:17px;flex:0 0 17px}
       <div class="search"><input id="q" type="search" placeholder="Search drugs, devices, companies, people…"></div>
       <button class="btn noprint" id="printBtn">Print</button>
     </header>
+    <div class="filters hidden" id="filters"></div>
     <section id="v-home"></section>
     <section id="v-drugs" class="hidden"></section>
     <section id="v-procs" class="hidden"></section>
@@ -193,6 +211,7 @@ nav button .ic{color:inherit;opacity:.9;width:17px;height:17px;flex:0 0 17px}
 <script>
 const D = __PAYLOAD__;
 const $ = id => document.getElementById(id);
+const setTxt = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v; };
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const inr = n => (n===''||n==null||isNaN(+n)) ? '–' : '₹' + Math.round(+n).toLocaleString('en-IN');
 const lakh = n => (n===''||n==null||isNaN(+n)) ? '–' : '₹' + (+n/100000).toFixed(2).replace(/\.?0+$/,'') + ' L';
@@ -206,7 +225,11 @@ let view = 'home';
 
 function show(v){
   view = v;
-  document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  document.querySelectorAll('#nav button[data-v]').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  document.querySelectorAll('#moreMenu button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  $('moreBtn').classList.toggle('on', ['procs','companies','contacts','gaps'].includes(v));
+  $('moreMenu').classList.remove('open');
+  renderFilters(v);
   ['home','drugs','procs','devices','companies','groups','compare','gaps','contacts'].forEach(x => $('v-'+x).classList.toggle('hidden', x !== v));
   $('title').textContent = PAGES[v];
   render(v);
@@ -274,7 +297,7 @@ function cardDrug(p){
 }
 function cardDevice(p){
   return `<div class="card" style="cursor:pointer" onclick="openItem('${esc(p.id)}')">
-    <div class="k">[[icon:microscope]] ${esc(p.category)} · ${esc(p.manufacturer_company)}</div><h3>${esc(p.name)}</h3>
+    <div class="k">[[icon:microscope]] ${esc(areaOf(p.id)||p.category)} · ${esc(p.manufacturer_company)}</div><h3>${esc(p.name)}</h3>
     <p>${esc((p.use_indication||'').slice(0,120))}</p><div style="margin-top:8px">${pill(p.verification_status)}</div></div>`;
 }
 function cardCo(m){
@@ -291,26 +314,27 @@ function cardPerson(c){
 }
 
 function renderDrugs(){
-  const rows = drugs.filter(p => hit(p,['name','manufacturer_company','use_indication','notes','product_line']));
+  const rows = drugs.filter(p => passes(p) && hit(p,['name','manufacturer_company','use_indication','notes','product_line']));
   $('sub').textContent = `${rows.length} drug${rows.length===1?'':'s'}. Click a row for details. Prices show the basis for each figure.`;
   const pricesFor = id => D.pricing.filter(x => x.product_id === id);
   let body = '';
   rows.forEach(p => {
     const pr = pricesFor(p.id);
     if(!pr.length){
-      body += `<tr class="row" onclick="openItem('${esc(p.id)}')"><td><b>${esc(p.name)}</b><div class="note">${esc(p.manufacturer_company)}</div></td><td colspan="3" class="note">No price recorded</td><td>${pill(p.verification_status)}</td></tr>`;
+      body += `<tr class="row" onclick="openItem('${esc(p.id)}')"><td><b>${esc(p.name)}</b><div class="note">${esc(p.manufacturer_company)}</div></td><td>${esc(formOf(p.id))}</td><td>${esc(areaOf(p.id))}</td><td colspan="3" class="note">No price recorded</td><td>${pill(p.verification_status)}</td></tr>`;
       return;
     }
     pr.forEach((x,i) => {
       body += `<tr class="row" onclick="openItem('${esc(p.id)}')">
         <td>${i===0?`<b>${esc(p.name)}</b><div class="note">${esc(p.manufacturer_company)}</div>`:''}</td>
+        <td>${i===0?esc(formOf(p.id)):''}</td><td>${i===0?esc(areaOf(p.id)):''}</td>
         <td>${esc(x.price_note||x.pack)}</td>
         <td class="num"><b>${inr(x.price_inr)}</b></td>
         <td>${esc(x.price_type||'')}</td>
         <td>${i===0?pill(p.verification_status):''}</td></tr>`;
     });
   });
-  $('v-drugs').innerHTML = `<table><tr><th>Drug</th><th>Pack / basis</th><th class="num">Price</th><th>Price type</th><th>Status</th></tr>${body || '<tr><td colspan="5">Nothing matches.</td></tr>'}</table>
+  $('v-drugs').innerHTML = `<table><tr><th>Drug</th><th>Form</th><th>Area</th><th>Pack / basis</th><th class="num">Price</th><th>Price type</th><th>Status</th></tr>${body || '<tr><td colspan="5">Nothing matches.</td></tr>'}</table>
     <p class="note">Rep quotes are what reps told you. Web MRP is retail. Check each before quoting a patient.</p>`;
 }
 
@@ -347,7 +371,7 @@ function renderProcs(){
 }
 
 function renderDevices(){
-  const rows = devices.filter(p => hit(p,['name','manufacturer_company','use_indication','notes','category']));
+  const rows = devices.filter(p => passes(p) && hit(p,['name','manufacturer_company','use_indication','notes','category']));
   $('sub').textContent = `${rows.length} item${rows.length===1?'':'s'}, grouped by company.`;
   const groups = {};
   rows.forEach(p => (groups[p.manufacturer_company||'Unknown'] = groups[p.manufacturer_company||'Unknown'] || []).push(p));
@@ -361,6 +385,28 @@ function renderCompanies(){
   $('sub').textContent = `${rows.length} compan${rows.length===1?'y':'ies'}. Click for details and contacts.`;
   $('v-companies').innerHTML = `<div class="grid">${rows.map(cardCo).join('')}</div>`;
 }
+
+// ---- attributes and filters ----
+const ATTR = {}; D.attributes.forEach(a => ATTR[a.product_id] = a);
+const FILT = {form:'', area:''};
+const formOf = id => (ATTR[id]||{}).dosage_form_or_kind || '';
+const areaOf = id => (ATTR[id]||{}).therapeutic_area || '';
+function renderFilters(v){
+  const el = $('filters');
+  const show = ['drugs','devices','groups'].includes(v);
+  el.classList.toggle('hidden', !show);
+  if(!show){ return; }
+  const pool = v === 'drugs' ? drugs : devices;
+  const areas = [...new Set(pool.map(p => areaOf(p.id)).filter(Boolean))].sort();
+  const forms = [...new Set(pool.map(p => formOf(p.id)).filter(Boolean))].sort();
+  el.innerHTML = `<label>Area <select id="fArea"><option value="">All areas</option>${areas.map(a=>`<option ${FILT.area===a?'selected':''}>${esc(a)}</option>`).join('')}</select></label>
+    <label>Form <select id="fForm"><option value="">All forms</option>${forms.map(f=>`<option ${FILT.form===f?'selected':''}>${esc(f)}</option>`).join('')}</select></label>
+    <button class="btn" id="fClear">Clear filters</button>`;
+  $('fArea').onchange = e => { FILT.area = e.target.value; render(view); };
+  $('fForm').onchange = e => { FILT.form = e.target.value; render(view); };
+  $('fClear').onclick = () => { FILT.area=''; FILT.form=''; render(view); renderFilters(view); };
+}
+const passes = p => (!FILT.area || areaOf(p.id) === FILT.area) && (!FILT.form || formOf(p.id) === FILT.form);
 
 // ---- grouping and comparison ----
 const CMP = new Set();
@@ -389,7 +435,7 @@ function toggleCmp(id, on){
 }
 window.toggleCmp = toggleCmp;
 function updateTray(){
-  $('nCmp').textContent = CMP.size ? CMP.size : '';
+  setTxt('nCmp', CMP.size ? CMP.size : '');
   let t = $('tray');
   if(!t){ t = document.createElement('div'); t.id = 'tray'; t.className = 'tray noprint'; document.body.appendChild(t); }
   t.classList.toggle('show', CMP.size > 0);
@@ -404,7 +450,7 @@ function renderGroups(){
   const seg = `<div class="seg" style="margin-bottom:14px"><button class="btn ${groupMode==='generic'?'primary':''}" onclick="groupMode='generic';renderGroups()">Drugs by generic</button><button class="btn ${groupMode==='device'?'primary':''}" onclick="groupMode='device';renderGroups()">Devices by type</button></div>`;
   const groups = groupsOf(groupMode).filter(g => hit({name:g.name}, ['name']) || g.items.some(p => hit(p,['name','manufacturer_company','use_indication'])));
   const body = groups.map(g => {
-    const items = g.items.filter(p => hit(p,['name','manufacturer_company','use_indication','notes']) || hit({name:g.name},['name']));
+    const items = g.items.filter(p => passes(p) && (hit(p,['name','manufacturer_company','use_indication','notes']) || hit({name:g.name},['name'])));
     return `<h2>${esc(g.name)} <span class="note">· ${items.length} vendor${items.length===1?'':'s'}</span></h2>
     <table><tr><th style="width:36px"></th><th>Product</th><th>Company</th><th class="num">Price</th><th>Status</th></tr>
     ${items.map(p => `<tr class="row"><td><input type="checkbox" ${CMP.has(p.id)?'checked':''} onclick="event.stopPropagation();toggleCmp('${esc(p.id)}',this.checked)"></td>
@@ -420,7 +466,8 @@ function renderCompare(){
   if(!items.length){ $('v-compare').innerHTML = '<p class="lead">Tick items in Groups or Drugs to compare them here.</p>'; return; }
   const rows = [
     ['Company', p => esc(p.manufacturer_company)],
-    ['Category', p => esc(p.category)],
+    ['Form', p => esc(formOf(p.id))],
+    ['Area', p => esc(areaOf(p.id))],
     ['Use / indication', p => esc(p.use_indication)],
     ['Key specs', p => esc(p.key_specs)],
     ['Price (rep quote and web)', p => priceText(p.id) + (priceRange(p.id) && priceRange(p.id).n>1 ? '<div class="note">' + D.pricing.filter(x=>x.product_id===p.id).map(x=>`${esc(x.price_note||x.pack)}: ${inr(x.price_inr)}`).join('<br>') + '</div>' : '')],
@@ -484,7 +531,9 @@ function openCo(id){
 function closeDetail(){ $('detail').classList.remove('open'); }
 window.show = show; window.openItem = openItem; window.openCo = openCo; window.closeDetail = closeDetail;
 
-document.querySelectorAll('#nav button').forEach(b => b.onclick = () => show(b.dataset.v));
+document.querySelectorAll('#nav button[data-v], #moreMenu button[data-v]').forEach(b => b.onclick = () => show(b.dataset.v));
+$('moreBtn').onclick = e => { e.stopPropagation(); $('moreMenu').classList.toggle('open'); $('moreBtn').setAttribute('aria-expanded', $('moreMenu').classList.contains('open')); };
+document.addEventListener('click', () => $('moreMenu').classList.remove('open'));
 $('q').addEventListener('input', () => render(view === 'home' || q() ? 'home' : view));
 $('printBtn').onclick = () => window.print();
 const KEY = 'urref-settings';
@@ -531,8 +580,8 @@ $('setBtn').onclick = openSettings;
 applySettings();
 matchMedia('(prefers-color-scheme: dark)').addEventListener && matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySettings);
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDetail(); });
-$('nDrugs').textContent = drugs.length; $('nDev').textContent = devices.length; $('nProcs').textContent = D.procedures.length;
-$('nCo').textContent = D.manufacturers.length; updateTray(); $('nCt').textContent = D.contacts.length; $('nGap').textContent = D.gaps.filter(g=>g.status==='gap').length;
+setTxt('nDrugs', drugs.length); setTxt('nDev', devices.length); setTxt('nProcs', D.procedures.length);
+setTxt('nCo', D.manufacturers.length); setTxt('nCt', D.contacts.length); setTxt('nGap', D.gaps.filter(g=>g.status==='gap').length); updateTray();
 show('home');
 </script></body></html>
 """
