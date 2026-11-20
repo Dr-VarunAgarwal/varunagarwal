@@ -56,19 +56,39 @@ HTML = r"""<!DOCTYPE html>
   --accent:#5fd0cc; --accent-soft:#12333a; --gold:#7fd9c9; --warn:#f0a35c; --ok:#6fe0a6; --shadow:none; }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 var(--sans)}
-.wrap{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
-@media(max-width:860px){.wrap{grid-template-columns:1fr}aside{position:static!important;height:auto!important}}
-aside{position:sticky;top:0;height:100vh;padding:26px 18px;border-right:1px solid var(--line);background:var(--card)}
-.brand{font:700 18px/1.2 var(--sans);letter-spacing:.02em;margin:0 0 4px;text-transform:uppercase}
-.pulse{display:block;width:100%;height:34px;margin:6px 0 4px}
+.wrap{min-height:100vh}
+.bar{position:sticky;top:0;z-index:8;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar-in{display:flex;align-items:center;gap:14px;max-width:1180px;margin:0 auto;padding:10px clamp(14px,3vw,30px)}
+.brand-s{display:flex;align-items:center;gap:8px;font:600 14px var(--sans);text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}
+.brand-s .ic{width:18px;height:18px;color:var(--accent)}
+.bar nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+.bar nav::-webkit-scrollbar{display:none}
+.bar nav button{display:flex;align-items:center;gap:6px;border:0;background:none;color:var(--muted);padding:7px 10px;border-radius:999px;cursor:pointer;font:500 13px var(--sans);white-space:nowrap}
+.bar nav button:hover{color:var(--ink);background:var(--accent-soft)}
+.bar nav button.on{color:var(--accent);background:var(--accent-soft);font-weight:600}
+.bar nav .ic{width:16px;height:16px;flex:0 0 16px;color:currentColor}
+.bar nav .n{font:600 10px var(--mono);color:var(--muted);background:var(--paper);border-radius:999px;padding:1px 6px;font-style:normal}
+.bar-tools{display:flex;gap:6px;flex:0 0 auto}
+.iconbtn{width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.iconbtn .ic{width:18px;height:18px}
+.iconbtn:hover{border-color:var(--accent);color:var(--accent)}
+.setg{padding:12px 0;border-top:1px solid var(--line)}
+.setl{font:600 12px var(--sans);text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:8px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.opt{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.opt:has(input:checked){background:var(--accent);color:#fff;border-color:var(--accent)}
+.opt input{accent-color:var(--accent)}
+.tog{display:flex;gap:8px;align-items:center;cursor:pointer}
+.tog input{accent-color:var(--accent);width:16px;height:16px}
+body.large{font-size:17px}
+body.hide-pii .pii{display:none!important}
+
 .tag{color:var(--muted);font-size:12px;margin-bottom:22px}
 nav button{display:flex;width:100%;text-align:left;gap:10px;align-items:center;border:0;background:none;color:var(--ink);padding:9px 10px;border-radius:8px;cursor:pointer;font:inherit}
 nav button:hover{background:var(--accent-soft)}
 nav button.on{background:var(--accent);color:#fff;box-shadow:0 0 0 1px var(--accent)}
 nav .n{margin-left:auto;font-size:12px;opacity:.7}
-.side-foot{position:absolute;bottom:18px;left:18px;right:18px;font-size:12px;color:var(--muted)}
-aside{background:linear-gradient(180deg,var(--card),var(--paper))}
-main{padding:30px clamp(18px,4vw,48px) 60px;max-width:1180px;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;background-position:-1px -1px;background-blend-mode:normal}
+main{padding:26px clamp(14px,4vw,48px) 60px;max-width:1180px;margin:0 auto;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;background-position:-1px -1px;background-blend-mode:normal}
 main>*{position:relative}
 header.top{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:22px}
 h1{font:600 26px/1.15 var(--sans);margin:0;letter-spacing:-.01em}
@@ -114,31 +134,33 @@ td.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-num
 .sheet dd{margin:0;word-break:break-word}
 .hidden{display:none!important}
 .hero{display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(120deg,var(--accent-soft),var(--card) 70%);border:1px solid var(--line);border-radius:16px;padding:22px 26px;margin-bottom:18px;box-shadow:var(--shadow);overflow:hidden}
-.hero .anat{width:min(220px,40%);height:auto;color:var(--accent);opacity:.9;flex:0 0 auto}
-@media(max-width:560px){.hero .anat{display:none}}
+
 .ic{width:18px;height:18px;flex:0 0 18px;vertical-align:-4px;color:var(--accent)}
 nav button .ic{color:inherit;opacity:.9;width:17px;height:17px;flex:0 0 17px}
 .card .k .ic{width:14px;height:14px;flex:0 0 14px;vertical-align:-2px;margin-right:2px}
 .card.stat .ic{width:22px;height:22px;margin-bottom:6px;color:var(--gold)}
 .brand .ic{width:20px;height:20px;vertical-align:-4px;color:var(--accent)}
-@media print{aside,.search,.noprint{display:none!important}.wrap{display:block}main{padding:0}body{background:#fff;color:#000}.card,table,.est{box-shadow:none}}
+@media print{.bar,.search,.noprint{display:none!important}main{padding:0}body{background:#fff;color:#000}.card,table,.est{box-shadow:none}}
 </style></head>
 <body>
 <div class="wrap">
-  <aside>
-    <p class="brand">[[icon:medical-cross]] Urology<br>Reference Centre</p>
-    <svg class="pulse" viewBox="0 0 220 34" preserveAspectRatio="none" aria-hidden="true"><path d="M0 18 H52 L60 18 L66 6 L74 30 L82 12 L88 18 H140 L146 18 L152 10 L158 22 L164 18 H220" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round" opacity=".75"/></svg>
-    <div class="tag">Operating theatre reference · drugs, devices, costs, contacts</div>
-    <nav id="nav">
-      <button data-v="home" class="on">[[icon:heartbeat]]Overview</button>
-      <button data-v="drugs">[[icon:pill]]Drugs &amp; prices <span class="n" id="nDrugs"></span></button>
-      <button data-v="procs">[[icon:report-medical]]Procedure costs <span class="n" id="nProcs"></span></button>
-      <button data-v="devices">[[icon:microscope]]Devices <span class="n" id="nDev"></span></button>
-      <button data-v="companies">[[icon:hospital]]Companies <span class="n" id="nCo"></span></button>
-      <button data-v="contacts">[[icon:nurse]]Contacts <span class="n" id="nCt"></span></button>
-    </nav>
-    <div class="side-foot">Private. Contains personal contact details.<br><button class="btn noprint" id="themeBtn" style="margin-top:8px;padding:5px 10px;font-size:12px">Toggle theme</button></div>
-  </aside>
+  <header class="bar noprint">
+    <div class="bar-in">
+      <div class="brand-s">[[icon:medical-cross]]<span>Urology Reference</span></div>
+      <nav id="nav">
+        <button data-v="home" class="on" title="Overview">[[icon:heartbeat]]<span>Overview</span></button>
+        <button data-v="drugs" title="Drugs and prices">[[icon:pill]]<span>Drugs</span><i class="n" id="nDrugs"></i></button>
+        <button data-v="procs" title="Procedure costs">[[icon:report-medical]]<span>Procedures</span><i class="n" id="nProcs"></i></button>
+        <button data-v="devices" title="Devices">[[icon:microscope]]<span>Devices</span><i class="n" id="nDev"></i></button>
+        <button data-v="companies" title="Companies">[[icon:hospital]]<span>Companies</span><i class="n" id="nCo"></i></button>
+        <button data-v="contacts" title="Contacts">[[icon:nurse]]<span>Contacts</span><i class="n" id="nCt"></i></button>
+      </nav>
+      <div class="bar-tools">
+        <button class="iconbtn" id="modeBtn" title="Day or night" aria-label="Switch day or night">[[icon:sun]]</button>
+        <button class="iconbtn" id="setBtn" title="Settings" aria-label="Settings">[[icon:settings]]</button>
+      </div>
+    </div>
+  </header>
   <main>
     <header class="top">
       <div><h1 id="title">Overview</h1><p class="lead" id="sub"></p></div>
@@ -204,15 +226,7 @@ function renderHome(){
     <div class="hero">
       <div><div class="k">Urology · Operating theatre</div><h2 style="margin:6px 0 4px;font-size:22px;text-transform:none;letter-spacing:0;color:var(--ink)">Drugs, devices and costs, in one place</h2>
       <p class="lead">Rep quotes, web checks and procedure estimates for your urology work.</p></div>
-      <svg class="anat" viewBox="0 0 200 150" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M46 34 C 22 40, 14 70, 26 94 C 36 114, 62 118, 74 100 C 84 84, 78 60, 68 44 C 62 36, 54 32, 46 34 Z"/>
-  <path d="M68 58 C 84 62, 96 70, 100 84"/>
-  <path d="M100 84 C 104 100, 102 112, 110 122"/>
-  <path d="M110 122 C 122 132, 146 130, 152 116 C 158 102, 146 92, 130 92 C 118 92, 112 104, 110 122 Z"/>
-  <path d="M152 116 C 168 116, 178 124, 176 138"/>
-  <path d="M30 124 C 38 130, 58 132, 70 124" stroke-dasharray="2 4" opacity=".6"/>
-</svg>
-    </div>
+      </div>
     <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr));margin-bottom:8px">
       <div class="card stat">[[icon:pill]]<b>${drugs.length}</b><span>drugs</span></div>
       <div class="card stat">[[icon:microscope]]<b>${devices.length}</b><span>devices &amp; other items</span></div>
@@ -256,7 +270,7 @@ function cardCo(m){
 }
 function cardPerson(c){
   return `<div class="card"><div class="k">${esc(c.organization)}</div><h3>${esc(c.person_name||'(name not on card)')}</h3>
-    <p>${esc(c.role_title)}</p><p>${esc(c.phone)}</p><p>${esc(c.email)}</p></div>`;
+    <p>${esc(c.role_title)}</p><p class="pii">${esc(c.phone)}</p><p class="pii">${esc(c.email)}</p></div>`;
 }
 
 function renderDrugs(){
@@ -334,7 +348,7 @@ function renderContacts(){
   const rows = D.contacts.filter(c => hit(c,['person_name','organization','role_title','notes','email','phone']));
   $('sub').textContent = `${rows.length} contact${rows.length===1?'':'s'}. Phone and email are stored locally.`;
   $('v-contacts').innerHTML = `<table><tr><th>Name</th><th>Role</th><th>Organisation</th><th>Phone</th><th>Email</th></tr>
-    ${rows.map(c=>`<tr><td><b>${esc(c.person_name||'—')}</b></td><td>${esc(c.role_title)}</td><td>${esc(c.organization)}</td><td>${esc(c.phone)}</td><td>${esc(c.email)}</td></tr>`).join('')}</table>`;
+    ${rows.map(c=>`<tr><td><b>${esc(c.person_name||'—')}</b></td><td>${esc(c.role_title)}</td><td>${esc(c.organization)}</td><td class="pii">${esc(c.phone)}</td><td class="pii">${esc(c.email)}</td></tr>`).join('')}</table>`;
 }
 
 function openItem(id){
@@ -356,7 +370,7 @@ function openCo(id){
     <h2 style="margin:4px 0 0">${esc(m.name)}</h2>
     <dl><dt>Location</dt><dd>${esc([m.city,m.country].filter(Boolean).join(', '))}</dd><dt>Website</dt><dd>${esc(m.website)}</dd><dt>India presence</dt><dd>${esc(m.india_presence)}</dd><dt>Categories</dt><dd>${esc(m.product_categories)}</dd><dt>Notes</dt><dd>${esc(m.notes)}</dd></dl>
     <h3 style="font:600 15px var(--sans);margin:16px 0 4px">Products (${prods.length})</h3>${prods.map(p=>`<div><a href="#" onclick="openItem('${esc(p.id)}');return false">${esc(p.name)}</a></div>`).join('')||'<div class="note">None linked</div>'}
-    <h3 style="font:600 15px var(--sans);margin:16px 0 4px">People (${ppl.length})</h3>${ppl.map(c=>`<div><b>${esc(c.person_name||'(no name)')}</b> · ${esc(c.role_title)}<br>${esc(c.phone)} · ${esc(c.email)}</div>`).join('')||'<div class="note">None linked</div>'}
+    <h3 style="font:600 15px var(--sans);margin:16px 0 4px">People (${ppl.length})</h3>${ppl.map(c=>`<div><b>${esc(c.person_name||'(no name)')}</b> · ${esc(c.role_title)}<br><span class="pii">${esc(c.phone)} · ${esc(c.email)}</span></div>`).join('')||'<div class="note">None linked</div>'}
     <p style="margin-top:18px"><button class="btn" onclick="closeDetail()">Close</button></p>`;
   $('detail').classList.add('open');
 }
@@ -366,10 +380,49 @@ window.show = show; window.openItem = openItem; window.openCo = openCo; window.c
 document.querySelectorAll('#nav button').forEach(b => b.onclick = () => show(b.dataset.v));
 $('q').addEventListener('input', () => render(view === 'home' || q() ? 'home' : view));
 $('printBtn').onclick = () => window.print();
-$('themeBtn').onclick = () => {
-  const r = document.documentElement; const dark = r.dataset.theme === 'dark' || (!r.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
-  r.dataset.theme = dark ? 'light' : 'dark';
+const KEY = 'urref-settings';
+const DEFAULTS = {theme:'system', contacts:true, large:false};
+function loadSettings(){ try { return Object.assign({}, DEFAULTS, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch(e) { return {...DEFAULTS}; } }
+function saveSettings(st){ try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e) {} }
+let settings = loadSettings();
+function applySettings(){
+  const r = document.documentElement;
+  if (settings.theme === 'system') delete r.dataset.theme; else r.dataset.theme = settings.theme;
+  document.body.classList.toggle('hide-pii', !settings.contacts);
+  document.body.classList.toggle('large', !!settings.large);
+  const dark = settings.theme === 'dark' || (settings.theme === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+  $('modeBtn').innerHTML = dark ? MOON : SUN;
+  $('modeBtn').title = dark ? 'Switch to day' : 'Switch to night';
+}
+const SUN = `__SUN__`, MOON = `__MOON__`;
+$('modeBtn').onclick = () => {
+  const r = document.documentElement;
+  const dark = r.dataset.theme === 'dark' || (!r.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+  settings.theme = dark ? 'light' : 'dark'; saveSettings(settings); applySettings();
 };
+function openSettings(){
+  const opt = (name, val, label) => `<label class="opt"><input type="radio" name="${name}" value="${val}" ${settings[name]===val?'checked':''}> ${label}</label>`;
+  $('sheet').innerHTML = `<div class="k" style="font:600 11px var(--sans);color:var(--gold);text-transform:uppercase;letter-spacing:.12em">Settings</div>
+    <h2 style="margin:4px 0 14px;font-size:20px;text-transform:none;letter-spacing:0;color:var(--ink)">Appearance and display</h2>
+    <div class="setg"><div class="setl">Day or night</div>
+      <div class="seg">${opt('theme','system','Match device')}${opt('theme','light','Day')}${opt('theme','dark','Night')}</div></div>
+    <div class="setg"><div class="setl">Contact details</div>
+      <label class="tog"><input type="checkbox" id="setContacts" ${settings.contacts?'checked':''}> Show phone numbers and emails</label>
+      <div class="note">Turn off to hide personal details when you share your screen.</div></div>
+    <div class="setg"><div class="setl">Text size</div>
+      <label class="tog"><input type="checkbox" id="setLarge" ${settings.large?'checked':''}> Larger text</label></div>
+    <p style="margin-top:20px;display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap">
+      <button class="btn" id="setReset">Reset to defaults</button>
+      <button class="btn primary" onclick="closeDetail()">Done</button></p>`;
+  $('detail').classList.add('open');
+  document.querySelectorAll('#sheet input[name="theme"]').forEach(i => i.onchange = () => { settings.theme = i.value; saveSettings(settings); applySettings(); });
+  $('setContacts').onchange = e => { settings.contacts = e.target.checked; saveSettings(settings); applySettings(); };
+  $('setLarge').onchange = e => { settings.large = e.target.checked; saveSettings(settings); applySettings(); };
+  $('setReset').onclick = () => { settings = {...DEFAULTS}; saveSettings(settings); applySettings(); openSettings(); };
+}
+$('setBtn').onclick = openSettings;
+applySettings();
+matchMedia('(prefers-color-scheme: dark)').addEventListener && matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySettings);
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDetail(); });
 $('nDrugs').textContent = drugs.length; $('nDev').textContent = devices.length; $('nProcs').textContent = D.procedures.length;
 $('nCo').textContent = D.manufacturers.length; $('nCt').textContent = D.contacts.length;
@@ -381,5 +434,6 @@ out_dir = os.path.join(HERE, "reference")
 os.makedirs(out_dir, exist_ok=True)
 out = os.path.join(out_dir, "index.html")
 with open(out, "w", encoding="utf-8") as f:
-    f.write(fill_icons(HTML.replace("__PAYLOAD__", payload)))
+    page = HTML.replace("__PAYLOAD__", payload).replace("__SUN__", icon_html("sun")).replace("__MOON__", icon_html("moon")).replace("__GEAR__", icon_html("settings"))
+    f.write(fill_icons(page))
 print("wrote", out, {k: len(v) for k, v in data.items()})
